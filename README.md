@@ -3,6 +3,8 @@
 Author: Søren Riisom Pedersen  
 Contact: soepe13@student.sdu.dk  
 
+Github project: git@github.com:PoSRP/ada-portfolio2.git  
+
 ## ADA Portfolio 2 Description
 
 ### 1 Knight Problem
