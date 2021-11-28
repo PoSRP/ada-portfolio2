@@ -3,8 +3,10 @@
 # Change to build dir
 user=$(whoami)
 BUILD_DIR="${PWD}/build"
-mkdir $BUILD_DIR || exit 1
-cd $BUILD_DIR || exit 1
+if [[ ! -d ${BUILD_DIR} ]]; then
+	mkdir ${BUILD_DIR}
+fi
+cd ${BUILD_DIR} || exit 1
 
 # Argument parsing
 while [[ $# -gt 0 ]]; do
