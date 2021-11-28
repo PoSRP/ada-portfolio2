@@ -2,7 +2,8 @@
 
 # Change to build dir
 user=$(whoami)
-BUILD_DIR="/home/${user}/workspace/eclipse/ada-portfolio/build"
+BUILD_DIR="${PWD}/build"
+mkdir $BUILD_DIR || exit 1
 cd $BUILD_DIR || exit 1
 
 # Argument parsing

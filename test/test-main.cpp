@@ -1,279 +1,85 @@
 /**
  * @file test-main.cpp
  *
- * @brief Test cases for the portfolio search algorithm.
+ * @brief Test cases for the second portfolio search algorithm.
  *
- * Building tests require the Catch2 'catch.hpp', see
+ * To build unit tests, the catch2 header is required.
  * 		https://github.com/catchorg/Catch2/releases/download/v2.13.7/catch.hpp
- * Tested with v1.12.1 and 1.13.7
+ * It is included in the ./include directory, but is NOT a part of my
+ * assignment, as it is not my original code, just a testing framework.
  *
- * @ingroup CollinearSearch
+ * @ingroup ChessSearch
  *
  * @author Søren Riisom Pedersen
  * Contact: soepe13@student.sdu.dk
  *
- * Created on: 12-10-2021
+ * Created on: 10-11-2021
  */
 
 /**
- * ADA Portfolio
+ * ADA Portfolio 2
  *
- * Write a program that reads a list of points in a plane and outputs any group of four or more colinear points
- * (i.e. points on the same line). The algorithm should make use of sorting and have a time complexity of
- * O(n^2 log N). Below is listed several unit-tests, that your function must be able to pass. The ordering of the
- * output is irrelevant.
- * Deadline is October 28th at 23:59, and you may only hand in program files (i.e. .h, .cpp or .java). Comments
- * must be embedded into the program files. The exercise must be completed and handed in individually.
+ * 1 Knight Problem
+ *   Jakob and Jens are playing chess and they want to figure out what is
+ *   the minimum number of moves it takes for a knight at a given position
+ *   to reach another position.  The legal moves of a knight can be seen in
+ *   figure 1. Your method should work for arbitrary sizes of chess boards.
+ *   To solve this problem, you must implement your own classes, Tree and
+ *   Node. You should also provide a public method that allows your
+ *   instructor to test your work.
+ *   Just as shown below:
+ *     int minimum_steps(int board_height,
+ *                       int board_width,
+ *                       int knight_start_x_position,
+ *                       int knight_start_y_position,
+ *                       int knight_end_x_position,
+ *                       int knight_end_y_position)
+ *   An example could be for the knight in figure 1, then the input would be:
+ *     minimum_steps(8, 8, 4, 4, 3, 2);
+ *   You do not have to write your own driver.
+ *   Just make sure that your codecomplies with the previously mentioned
+ *   interface.
  *
- * TEST 1 - Group of 4 colinear points
- * Input: {{7,1},{12,3},{14,6},{9,4},{1,6},{1,1},{2,2},{3,3},{4,4},{1,2},{2,4},{3,6},{4,7}}
- * Output: {{{1,1},{2,2},{3,3},{4,4}}}
- * TEST 2 - No group of 4 colinear points
- * Input: {{7,1},{12,5},{14,6},{9,4},{1,6},{2,2},{3,3},{4,4},{1,2},{2,4},{3,6},{4,7}}
- * Output: {}
- * TEST 3 - Colinear points on a vertical line
- * Input: {{7,1},{12,3},{14,6},{9,4},{1,6},{2,1},{1,4},{1,5},{4,4},{1,2},{2,5},{3,6},{4,8}}
- * Output: {{{1,2},{1,4},{1,5},{1,6}}}
- * TEST 4 - Multiple groups of colinear points
- * Input: {{2,2},{3,3},{4,4},{7,1},{14,6},{9,4},{1,1},{1,4},{1,5},{4,4},{1,2},{2,4}}
- * Output: {{{1,1},{1,2},{1,4},{1,5}}, {{1,1},{2,2},{3,3},{4,4}}, {{4,4},{9,4},{1,4},{2,4}}}
+ * 2 Formalia
+ *   You  should  only  hand  in  ONE  file  in  the  form  of  .zip.
+ *   The  name  of  the  file should be your SDU username (e.g.  jeive17).
+ *   In the .zip-file, you include all the relevant source (.cpp, .h, .hpp,
+ *   .java).  So only the programming languages C++and Java is acceptable and
+ *   use only the standard libraries.  So your program should be able to
+ *   compile using a standard compiler. The portfolio should be completed and
+ *   handed in individually.
  */
 
 #define CATCH_CONFIG_MAIN
 
-#include <vector>
-
 #include "catch.hpp"
-#include "collinear-search.hpp"
+#include "../src/chess-search.hpp"
 
 
-TEST_CASE("Point2d <= operator - false", "[point2d]") {
-	point2d p1(1,1);
-	point2d p2(1,2);
-	point2d p3(2,1);
-
-	REQUIRE((p2 <= p1) == false);
-	REQUIRE((p3 <= p2) == false);
-	REQUIRE((p3 <= p1) == false);
+TEST_CASE("Given test 1", "minimum_steps") {
+	REQUIRE(minimum_steps(8, 8, 4, 4, 4, 5) == 3);
 }
 
-TEST_CASE("Point2d <= operator - true", "[point2d]") {
-	point2d p1(1,1);
-	point2d p2(1,2);
-	point2d p3(2,1);
-	point2d p4(1,1);
-
-	REQUIRE((p1 <= p2) == true);
-	REQUIRE((p2 <= p3) == true);
-	REQUIRE((p1 <= p3) == true);
-	REQUIRE((p1 <= p4) == true);
+TEST_CASE("Given test 2", "minimum_steps") {
+	REQUIRE(minimum_steps(8, 8, 0, 0, 7, 7) == 6);
 }
 
-TEST_CASE("Point2d >= operator - false", "[point2d]") {
-	point2d p1(1,1);
-	point2d p2(1,2);
-	point2d p3(2,1);
-
-	REQUIRE((p1 >= p2) == false);
-	REQUIRE((p2 >= p3) == false);
-	REQUIRE((p1 >= p3) == false);
+TEST_CASE("Given test 3", "minimum_steps") {
+	REQUIRE(minimum_steps(8, 8, 0, 0, 0, 7) == 5);
 }
 
-TEST_CASE("Point2d >= operator - true", "[point2d]") {
-	point2d p1(1,1);
-	point2d p2(1,2);
-	point2d p3(2,1);
-	point2d p4(1,1);
-
-	REQUIRE((p2 >= p1) == true);
-	REQUIRE((p3 >= p2) == true);
-	REQUIRE((p3 >= p1) == true);
-	REQUIRE((p4 >= p1) == true);
+TEST_CASE("Given test 4", "minimum_steps") {
+	REQUIRE(minimum_steps(20, 10, 0, 4, 9, 15) == 8);
 }
 
-TEST_CASE("Point2d == operator - false", "[point2d]") {
-	point2d p1(1,2);
-	point2d p2(2,2);
-	point2d p3(2,1);
-
-	REQUIRE((p1 == p2) == false);
-	REQUIRE((p2 == p1) == false);
-	REQUIRE((p1 == p3) == false);
-	REQUIRE((p3 == p1) == false);
+TEST_CASE("Given test 5", "minimum_steps") {
+	REQUIRE(minimum_steps(100, 10, 4, 4, 9, 99) == 48);
 }
 
-TEST_CASE("Point2d == operator - true", "[point2d]") {
-	point2d p1(1,2);
-	point2d p2(1,2);
-
-	REQUIRE((p1 == p1) == true);
-	REQUIRE((p1 == p2) == true);
+TEST_CASE("Given test 6", "minimum_steps") {
+	REQUIRE(minimum_steps(8, 8, 4, 4, 4, 4) == 0);
 }
 
-TEST_CASE("Point2d != operator - false", "[point2d]") {
-	point2d p1(1,2);
-	point2d p2(1,2);
-
-	REQUIRE((p1 != p1) == false);
-	REQUIRE((p1 != p2) == false);
-}
-
-TEST_CASE("Point2d != operator - true", "[point2d]") {
-	point2d p1(1,2);
-	point2d p2(2,2);
-	point2d p3(2,1);
-
-	REQUIRE((p1 != p2) == true);
-	REQUIRE((p2 != p1) == true);
-	REQUIRE((p1 != p3) == true);
-	REQUIRE((p3 != p1) == true);
-}
-
-TEST_CASE("Point group comparison - false", "[compare_point_group]") {
-	std::vector<point2d> input1 {{1,1},{2,2},{3,3},{4,4}};
-	std::vector<point2d> input2 {{1,1},{2,2},{3,3},{4,3}};
-	std::vector<point2d> input3 {{2,1},{2,2},{3,3},{4,4}};
-	std::vector<point2d> input4 {{4,4},{1,2},{2,2},{3,3}};
-	std::vector<point2d> input5 {{1,6},{2,2},{3,5},{4,4}};
-	std::vector<point2d> input6 {{1,6},{3,5},{2,2},{4,4}};
-
-	REQUIRE(compare_point_group(input1,  input2) == false);
-	REQUIRE(compare_point_group(input1,  input3) == false);
-	REQUIRE(compare_point_group(input1,  input4) == false);
-	REQUIRE(compare_point_group(input1,  input5) == false);
-	REQUIRE(compare_point_group(input1,  input6) == false);
-}
-
-TEST_CASE("Point group comparison - true", "[compare_point_group]") {
-	std::vector<point2d> input1 {{1,1},{2,2},{3,3},{4,4}};
-	std::vector<point2d> input2 {{4,4},{3,3},{2,2},{1,1}};
-	std::vector<point2d> input3 {{3,3},{1,1},{2,2},{4,4}};
-	std::vector<point2d> input4 {{4,4},{2,2},{3,3},{1,1}};
-
-	REQUIRE(compare_point_group(input1,  input1) == true);
-	REQUIRE(compare_point_group(input1,  input2) == true);
-	REQUIRE(compare_point_group(input1,  input3) == true);
-	REQUIRE(compare_point_group(input1,  input4) == true);
-}
-
-TEST_CASE("Point groups comparison - false", "[compare_point_groups]") {
-	std::vector<std::vector<point2d>> input1 {
-		{{1,1},{2,2},{3,3},{4,4}},	// Three groups, one diagonal,
-		{{1,1},{2,1},{3,1},{4,1}},	// one vertical, one horizontal
-		{{1,1},{1,2},{1,3},{1,4}}};
-	std::vector<std::vector<point2d>> input2 {
-		{{1,3},{2,2},{3,3},{4,4}},
-		{{1,1},{2,1},{3,1},{4,1}},
-		{{1,1},{1,2},{1,3},{1,4}}};
-	std::vector<std::vector<point2d>> input3 {
-		{{1,1},{2,2},{3,3},{4,4}},
-		{{1,1},{2,1},{3,1},{4,1}},
-		{{1,1},{1,1},{1,3},{1,4}}};
-	std::vector<std::vector<point2d>> input4 {
-		{{1,1},{2,2},{3,3},{4,4}},
-		{{2,2},{2,1},{3,1},{4,1}},
-		{{1,1},{1,2},{1,3},{1,4}}};
-	std::vector<std::vector<point2d>> input5 {};
-	std::vector<std::vector<point2d>> input6 {
-		{{1,1},{2,2},{3,3},{4,4}},
-		{{2,2},{2,1},{3,1},{4,1}}};
-	std::vector<std::vector<point2d>> input7 {
-		{{1,1},{2,2},{3,3},{4,4},{5,5},{6,6}},
-		{{1,1},{2,2},{3,3}},
-		{{2,2},{2,1},{3,1},{4,1}}};
-
-	REQUIRE(compare_point_groups(input1, input2) == false);
-	REQUIRE(compare_point_groups(input1, input3) == false);
-	REQUIRE(compare_point_groups(input1, input4) == false);
-	REQUIRE(compare_point_groups(input1, input5) == false);
-	REQUIRE(compare_point_groups(input1, input6) == false);
-	REQUIRE(compare_point_groups(input1, input7) == false);
-}
-
-TEST_CASE("Point groups comparison - true", "[compare_point_groups]") {
-	std::vector<std::vector<point2d>> input1 {
-		{{1,1},{2,2},{3,3},{4,4}},	// Three groups, one diagonal,
-		{{1,1},{2,1},{3,1},{4,1}},	// one vertical, one horizontal
-		{{1,1},{1,2},{1,3},{1,4}}};
-	std::vector<std::vector<point2d>> input2 {
-		{{1,1},{2,2},{3,3},{4,4}},	// Idential vector
-		{{1,1},{2,1},{3,1},{4,1}},
-		{{1,1},{1,2},{1,3},{1,4}}};
-	std::vector<std::vector<point2d>> input3 {
-		{{1,1},{2,1},{3,1},{4,1}},	// Rows shifted
-		{{1,1},{1,2},{1,3},{1,4}},
-		{{1,1},{2,2},{3,3},{4,4}}};
-	std::vector<std::vector<point2d>> input4 {
-		{{2,2},{4,4},{1,1},{3,3}},	// Row contents shifted
-		{{1,1},{4,1},{3,1},{2,1}},
-		{{1,3},{1,4},{1,1},{1,2}}};
-	std::vector<std::vector<point2d>> input5 {
-		{{1,1},{4,1},{3,1},{2,1}},  // Rows shifted and rows content shifted
-		{{1,3},{1,4},{1,1},{1,2}},
-		{{2,2},{4,4},{1,1},{3,3}}};
-
-	REQUIRE(compare_point_groups(input1, input1) == true);
-	REQUIRE(compare_point_groups(input1, input2) == true);
-	REQUIRE(compare_point_groups(input1, input3) == true);
-	REQUIRE(compare_point_groups(input1, input4) == true);
-	REQUIRE(compare_point_groups(input1, input5) == true);
-}
-
-TEST_CASE("Group of 4 collinear points", "[collinear_search]") {
-	// Input values
-	std::vector<point2d> input {{7,1},{12,3},{14,6},{9,4},{1,6},{1,1},{2,2},{3,3},{4,4},{1,2},{2,4},{3,6},{4,7}};
-
-	// Expected output
-	std::vector<std::vector<point2d>> expected_output {{{1,1},{2,2},{3,3},{4,4}}};
-
-	// Run the algorithm
-	std::vector<std::vector<point2d>> actual_output = collinear_search(input);
-
-	// Test
-	REQUIRE(compare_point_groups(expected_output, actual_output) == true);
-}
-
-TEST_CASE("No group of 4 collinear points", "[collinear_search]") {
-	// Input values
-	std::vector<point2d> input {{7,1},{12,5},{14,6},{9,4},{1,6},{2,2},{3,3},{4,4},{1,2},{2,4},{3,6},{4,7}};
-
-	// Expected output
-	std::vector<std::vector<point2d>> expected_output {};
-
-	// Run the algorithm
-	std::vector<std::vector<point2d>> actual_output = collinear_search(input);
-
-	// Test
-	REQUIRE(compare_point_groups(expected_output, actual_output) == true);
-}
-
-TEST_CASE("Collinear points on a vertical plane", "[collinear_search]") {
-	// Input values
-	std::vector<point2d> input {{7,1},{12,3},{14,6},{9,4},{1,6},{2,1},{1,4},{1,5},{4,4},{1,2},{2,5},{3,6},{4,8}};
-
-	// Expected output
-	std::vector<std::vector<point2d>> expected_output {{{1,2},{1,4},{1,5},{1,6}}};
-
-	// Run the algorithm
-	std::vector<std::vector<point2d>> actual_output = collinear_search(input);
-
-	// Test
-	REQUIRE(compare_point_groups(expected_output, actual_output) == true);
-}
-
-TEST_CASE("Multiple groups of collinear points", "[collinear_search]") {
-	// Input values
-	std::vector<point2d> input {{2,2},{3,3},{4,4},{7,1},{14,6},{9,4},{1,1},{1,4},{1,5},{4,4},{1,2},{2,4}};
-
-	// Expected output
-	std::vector<std::vector<point2d>> expected_output{
-		{{1,1},{1,2},{1,4},{1,5}},
-		{{1,1},{2,2},{3,3},{4,4}},
-		{{4,4},{9,4},{1,4},{2,4}}};
-
-	// Run the algorithm
-	std::vector<std::vector<point2d>> actual_output = collinear_search(input);
-
-	// Test
-	REQUIRE(compare_point_groups(expected_output, actual_output) == true);
+TEST_CASE("Given test 7", "minimum_steps") {
+	REQUIRE(minimum_steps(100, 100, 50, 50, 57, 57) == 6);
 }

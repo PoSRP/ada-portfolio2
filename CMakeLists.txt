@@ -1,6 +1,6 @@
 # Set cpp and cmake versions
 set(CMAKE_CXX_STANDARD 17)
-project(ada-portfolio CXX)
+project(ada-portfolio2 CXX)
 cmake_minimum_required(VERSION 3.10.2)
 message(STATUS "Configuring C++17 project ${PROJECT_NAME} ${CMAKE_BUILD_TYPE} build .. ")
 
@@ -16,7 +16,7 @@ set(PROJECT_MAIN
 	${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 set(PROJECT_SOURCES
-	${CMAKE_SOURCE_DIR}/src/collinear-search.hpp
+	${CMAKE_SOURCE_DIR}/src/chess-search.hpp
 )
 
 # Includes
@@ -26,7 +26,7 @@ include_directories(
 )
 
 # Output executables
-add_executable(ada-portfolio ${PROJECT_MAIN} ${PROJECT_SOURCES})
+add_executable(ada-portfolio2 ${PROJECT_MAIN} ${PROJECT_SOURCES})
 
 # Test things
 if(BUILD_TESTS)
@@ -38,9 +38,9 @@ if(BUILD_TESTS)
 		${CMAKE_SOURCE_DIR}/include/catch.hpp
 	)
 # Test executable
-	add_executable(test-ada-portfolio ${TEST_MAIN} ${PROJECT_SOURCES} ${CATCH2_INCLUDE})
+	add_executable(test-ada-portfolio2 ${TEST_MAIN} ${PROJECT_SOURCES} ${CATCH2_INCLUDE})
 
 #	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-#		set_target_properties(test-ada-portfolio PROPERTIES DEBUG 1)
+#		set_target_properties(test-ada-portfolio2 PROPERTIES DEBUG 1)
 #	endif()
 endif()
